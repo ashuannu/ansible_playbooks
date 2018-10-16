@@ -1,0 +1,38 @@
+---
+- hosts: master:node
+  remote_user: ubuntu
+  become: yes
+  become_user: root
+  gather_facts: True
+  tasks:
+  - name: Add Docker's GPG key
+    apt_key:
+      url: "https://download.docker.com/linux/ubuntu/gpg"
+  - name: Configure Docker's APT repository
+    apt_repository:
+      repo: "deb [arch=amd64] https://download.docker.com/linux/ubuntu bionic stable"
+      update_cache: True
+  - name: Install Docker
+    apt:
+      name: docker-ce
+      state: latest
+
+  - name: Add Kubernetes's GPG key
+    apt_key:
+      url: "https://packages.cloud.google.com/apt/doc/apt-key.gpg"
+  - name: Configure Docker's APT repository
+    apt_repository:
+      repo: "deb http://apt.kubernetes.io/ kubernetes-xenial main"
+      update_cache: True
+  - name: Install kubeadm
+    apt:
+      name: kubeadm
+      state: latest
+  - name: Install kubelet
+    apt:
+      name: kubelet
+      state: latest
+  - name: Install kubectl
+    apt:
+      name: kubectl
+      state: latest
